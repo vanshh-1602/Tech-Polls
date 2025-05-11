@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "Backend for Tech Polls application",
   "main": "src/server.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "build": "echo 'Build step complete'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
