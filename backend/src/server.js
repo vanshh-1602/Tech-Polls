@@ -16,11 +16,15 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tech_polls_testing';
 
-// Enable CORS for all origins in development
-// For production, you might want to restrict this
+// Enable CORS for all origins to ensure frontend connectivity
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://techpolls.netlify.app'],
-  credentials: true
+  origin: function(origin, callback) {
+    // Allow any origin for now to debug connections
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Parse JSON request bodies
