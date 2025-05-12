@@ -21,8 +21,11 @@ import {
   Paper,
   IconButton,
   Alert,
+  Chip,
+  Tooltip
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import HowToVoteIcon from '@mui/icons-material/HowToVote';
 // axios is imported via api utility
 
 function PollDetail() {
@@ -268,13 +271,32 @@ function PollDetail() {
             <Box sx={{ mt: 3 }}>
               <Alert severity="success" sx={{ mb: 3 }}>
                 Thanks for voting! Here are the current results.
+                {selectedOption && (
+                  <Typography variant="body2" sx={{ mt: 1, fontWeight: 'medium' }}>
+                    You voted for: <strong>{selectedOption === '1' ? poll.option1 : poll.option2}</strong>
+                  </Typography>
+                )}
               </Alert>
               <Typography variant="h6" gutterBottom>
                 Results:
               </Typography>
               <Box sx={{ mb: 2 }}>
-                <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>{poll.option1}</span>
+                <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box display="flex" alignItems="center">
+                    <span>{poll.option1}</span>
+                    {selectedOption === '1' && (
+                      <Tooltip title="You voted for this option" arrow>
+                        <Chip 
+                          icon={<HowToVoteIcon />}
+                          label="Your vote" 
+                          size="small" 
+                          color="primary" 
+                          variant="outlined"
+                          sx={{ ml: 1.5, height: '24px' }}
+                        />
+                      </Tooltip>
+                    )}
+                  </Box>
                   <span>{poll.votes1} votes ({option1Percentage}%)</span>
                 </Typography>
                 <Box
@@ -300,8 +322,22 @@ function PollDetail() {
                 </Box>
               </Box>
               <Box sx={{ mb: 3 }}>
-                <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>{poll.option2}</span>
+                <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box display="flex" alignItems="center">
+                    <span>{poll.option2}</span>
+                    {selectedOption === '2' && (
+                      <Tooltip title="You voted for this option" arrow>
+                        <Chip 
+                          icon={<HowToVoteIcon />}
+                          label="Your vote" 
+                          size="small" 
+                          color="primary" 
+                          variant="outlined"
+                          sx={{ ml: 1.5, height: '24px' }}
+                        />
+                      </Tooltip>
+                    )}
+                  </Box>
                   <span>{poll.votes2} votes ({option2Percentage}%)</span>
                 </Typography>
                 <Box
