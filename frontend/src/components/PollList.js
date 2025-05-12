@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Container, Grid, Card, CardContent, Typography, Button, Box, Divider, Paper, CircularProgress, IconButton } from '@mui/material';
+import { Container, Grid, Card, CardContent, Typography, Button, Box, Divider, Paper, CircularProgress, IconButton, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import api, { endpoints } from '../utils/api';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SortIcon from '@mui/icons-material/Sort';
 
 function PollList() {
   const [polls, setPolls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sortOption, setSortOption] = useState('latest');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,15 +30,60 @@ function PollList() {
     fetchPolls();
   }, []);
 
+  // Handle sort option change
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
+  };
+
+  // Sort polls based on the selected option
+  const getSortedPolls = () => {
+    if (!polls || polls.length === 0) return [];
+    
+    let sortedPolls = [...polls];
+    
+    switch (sortOption) {
+      case 'most-votes':
+        sortedPolls.sort((a, b) => (b.votes1 + b.votes2) - (a.votes1 + a.votes2));
+        break;
+      case 'least-votes':
+        sortedPolls.sort((a, b) => (a.votes1 + a.votes2) - (b.votes1 + b.votes2));
+        break;
+      case 'latest':
+      default:
+        // Assuming polls already come sorted by date from the API
+        // If not, we would need a createdAt field to sort by
+        break;
+    }
+    
+    return sortedPolls;
+  };
+
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mb: 4, mt: 3, display: 'flex', alignItems: 'center' }}>
-        <IconButton onClick={() => navigate('/')} color="primary" sx={{ mr: 2 }}>
-          <ArrowBackIcon />
-        </IconButton>
-        <Typography variant="h4" component="h1">
-          Available Polls
-        </Typography>
+      <Box sx={{ mb: 4, mt: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box display="flex" alignItems="center">
+          <IconButton onClick={() => navigate('/')} color="primary" sx={{ mr: 2 }}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h4" component="h1">
+            Available Polls
+          </Typography>
+        </Box>
+        <FormControl sx={{ minWidth: 180 }}>
+          <InputLabel id="sort-select-label"><SortIcon sx={{ mr: 1, fontSize: '0.9rem' }} /> Sort By</InputLabel>
+          <Select
+            labelId="sort-select-label"
+            id="sort-select"
+            value={sortOption}
+            label="Sort By"
+            onChange={handleSortChange}
+            size="small"
+          >
+            <MenuItem value="latest">Latest</MenuItem>
+            <MenuItem value="most-votes">Most Votes</MenuItem>
+            <MenuItem value="least-votes">Least Votes</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
       <Divider sx={{ mb: 4 }} />
 
@@ -65,7 +112,7 @@ function PollList() {
         </Paper>
       ) : (
         <div style={{ display: 'flex', flexWrap: 'wrap', margin: '-12px' }}>
-          {polls.map((poll) => (
+          {getSortedPolls().map((poll) => (
             <div key={poll._id} style={{ width: '33.33%', padding: '12px', boxSizing: 'border-box' }}>
               <Card 
                 sx={{ 
