@@ -33,7 +33,7 @@ function CreatePoll() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing again
+
     if (error) setError(null);
   };
 
@@ -66,13 +66,13 @@ function CreatePoll() {
       const response = await api.post(endpoints.polls, formData);
       console.log('Poll created:', response.data);
       setSuccess(true);
-      // Reset form
+
       setFormData({
         question: '',
         option1: '',
         option2: '',
       });
-      // Navigate to polls page after short delay
+
       setTimeout(() => {
         navigate('/polls');
       }, 1500);

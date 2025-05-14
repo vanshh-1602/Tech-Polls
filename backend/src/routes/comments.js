@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 const Comment = require('../models/Comment');
 const { protect } = require('../middleware/auth');
 
-// Get comments for a poll - protected route requiring authentication
+
 router.get('/:pollId', protect, async (req, res) => {
   try {
     const comments = await Comment.find({ poll: req.params.pollId })
@@ -15,7 +15,7 @@ router.get('/:pollId', protect, async (req, res) => {
   }
 });
 
-// Add a comment - protected route requiring authentication
+
 router.post('/', [
   protect,
   [
@@ -23,7 +23,7 @@ router.post('/', [
     check('content', 'Comment content is required').not().isEmpty().trim()
   ]
 ], async (req, res) => {
-  // Check for validation errors
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

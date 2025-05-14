@@ -6,12 +6,12 @@ const PrivateRoute = () => {
   const { isAuthenticated, loading } = useContext(AuthContext);
   const location = useLocation();
 
-  // If auth is still loading, don't render anything yet
+
   if (loading) {
     return null;
   }
   
-  // If not authenticated, redirect to login with the return URL
+
   return isAuthenticated ? (
     <Outlet />
   ) : (

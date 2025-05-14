@@ -30,12 +30,12 @@ function PollList() {
     fetchPolls();
   }, []);
 
-  // Handle sort option change
+
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
   };
 
-  // Sort polls based on the selected option
+
   const getSortedPolls = () => {
     if (!polls || polls.length === 0) return [];
     
@@ -50,8 +50,7 @@ function PollList() {
         break;
       case 'latest':
       default:
-        // Assuming polls already come sorted by date from the API
-        // If not, we would need a createdAt field to sort by
+
         break;
     }
     

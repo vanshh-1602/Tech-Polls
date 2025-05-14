@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
-// axios is imported via api utility
+
 
 function PollDetail() {
   const { id } = useParams();
@@ -55,7 +55,7 @@ function PollDetail() {
           setPoll(response.data);
           setError(null);
           
-          // Check if user has voted on this poll with API instead of localStorage
+
           if (isAuthenticated) {
             checkUserVoteStatus();
           } else {
@@ -94,7 +94,7 @@ function PollDetail() {
         setComments(response.data);
       } catch (error) {
         console.error('Error fetching comments:', error.response || error);
-        // Don't set an error state for comments, just keep the comments array empty
+
       }
     };
 
@@ -102,12 +102,12 @@ function PollDetail() {
     fetchComments();
   }, [id]);
 
-  // Handle vote submission
+
   const handleVote = async (e) => {
     if (!selectedOption) return;
     
     if (!isAuthenticated) {
-      // If not authenticated, ask user to login first
+
       if (window.confirm('You need to be logged in to vote. Do you want to log in now?')) {
         navigate('/login');
       }
@@ -137,13 +137,13 @@ function PollDetail() {
     }
   };
 
-  // Submit a new comment
+
   const handleComment = async (e) => {
     e.preventDefault();
     if (!comment.trim()) return;
     
     if (!isAuthenticated) {
-      // If not authenticated, ask user to login first
+
       if (window.confirm('You need to be logged in to comment. Do you want to log in now?')) {
         navigate('/login');
       }
@@ -236,10 +236,10 @@ function PollDetail() {
       ) : (
 
         <>
-          {/* Poll content starts here */}
+
           {poll && (
             <>
-              {/* Calculate percentages */}
+
               {(() => {
                 const totalVotes = poll.votes1 + poll.votes2;
                 const option1Percentage = totalVotes ? Math.round((poll.votes1 / totalVotes) * 100) : 0;
@@ -314,7 +314,7 @@ function PollDetail() {
                     sx={{
                       height: '100%',
                       borderRadius: 6,
-                      width: `${option1Percentage || 1}%`, // Ensure at least 1% width for visibility
+                      width: `${option1Percentage || 1}%`,
                       backgroundColor: 'primary.main',
                       transition: 'width 1s ease-in-out'
                     }}
@@ -355,7 +355,7 @@ function PollDetail() {
                     sx={{
                       height: '100%',
                       borderRadius: 6,
-                      width: `${option2Percentage || 1}%`, // Ensure at least 1% width for visibility
+                      width: `${option2Percentage || 1}%`,
                       backgroundColor: 'secondary.main',
                       transition: 'width 1s ease-in-out'
                     }}
@@ -375,7 +375,7 @@ function PollDetail() {
             </>
           )}
 
-          {/* Comments Section */}
+
           <Card elevation={3} component={Paper}>
             <CardContent>
               <Typography variant="h6" gutterBottom>

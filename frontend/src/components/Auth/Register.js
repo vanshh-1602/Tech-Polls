@@ -20,7 +20,7 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Get the page they were trying to visit or default to polls page
+
   const from = location.state?.from || '/polls';
   const [formData, setFormData] = useState({
     username: '',
@@ -36,14 +36,14 @@ const Register = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing again
+
     if (error) setError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate
+
     if (!formData.username.trim()) {
       setError('Username is required');
       return;
@@ -71,14 +71,14 @@ const Register = () => {
       
       const response = await api.post(endpoints.register, registerData);
       
-      // Store token in localStorage
+
       localStorage.setItem('token', response.data.token);
       
-      // Update auth state
+
       setIsAuthenticated(true);
       setUser(response.data.user);
       
-      // Redirect to the page they were trying to visit
+
       navigate(from, { replace: true });
     } catch (error) {
       console.error('Registration error', error.response?.data || error);

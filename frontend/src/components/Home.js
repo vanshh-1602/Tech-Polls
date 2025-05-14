@@ -30,7 +30,7 @@ function Home() {
       </Box>
 
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4} justifyContent="center" sx={{ mt: 4 }}>
-        {/* Browse Polls Card */}
+
         <Card 
           component={Paper} 
           elevation={3}
@@ -70,7 +70,7 @@ function Home() {
           </CardContent>
         </Card>
         
-        {/* Create Poll Card */}
+
         <Card 
           component={Paper} 
           elevation={3}

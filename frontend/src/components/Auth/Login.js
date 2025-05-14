@@ -20,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Get the page they were trying to visit or default to polls page
+
   const from = location.state?.from || '/polls';
   const [formData, setFormData] = useState({
     email: '',
@@ -34,14 +34,14 @@ const Login = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    // Clear error when user starts typing again
+
     if (error) setError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate
+
     if (!formData.email.trim() || !formData.password.trim()) {
       setError('Please enter both email and password');
       return;
@@ -51,18 +51,18 @@ const Login = () => {
       setLoading(true);
       const response = await api.post(endpoints.login, formData);
       
-      // Store token in localStorage
+
       localStorage.setItem('token', response.data.token);
       
-      // Update auth state
+
       setIsAuthenticated(true);
       setUser(response.data.user);
       
-      // Redirect to the page they were trying to visit
+
       navigate(from, { replace: true });
     } catch (error) {
       console.error('Login error', error.response?.data || error);
-      // Handle different error types with customized messages
+
       const errorResponse = error.response?.data;
       if (errorResponse?.errorType === 'email_not_found') {
         setError('We couldn\'t find an account with that email address');

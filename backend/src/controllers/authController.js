@@ -2,10 +2,10 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
-// User registration
+
 exports.register = async (req, res) => {
   try {
-    // Validation
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
 
     const { username, email, password } = req.body;
 
-    // Check existing user
+
     let user = await User.findOne({ $or: [{ email }, { username }] });
     if (user) {
       return res.status(400).json({
@@ -21,7 +21,7 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Create user
+
     user = new User({
       username,
       email,
@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
 
     await user.save();
 
-    // Generate JWT token
+
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET || 'fallback_secret',
@@ -51,24 +51,24 @@ exports.register = async (req, res) => {
   }
 };
 
-// Login user
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user by email
+
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
       return res.status(401).json({ message: 'No account found with this email', errorType: 'email_not_found' });
     }
 
-    // Check if password matches
+
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Incorrect password', errorType: 'wrong_password' });
     }
 
-    // Generate JWT token
+
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET || 'fallback_secret',
@@ -89,7 +89,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// Get current user
+
 exports.getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
